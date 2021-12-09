@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Bountifarm Test</string>
+
+    <!-- Actions -->
+    <string name="action_title_search">검색</string>
+
+    <!-- Music list -->
+    <string name="music_list_title">Bountifarm Music</string>
+
+    <!-- Search -->
+    <string name="search_hint">노래 제목 검색</string>
+</resources>
