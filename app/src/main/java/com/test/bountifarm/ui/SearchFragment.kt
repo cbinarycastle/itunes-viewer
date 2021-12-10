@@ -9,13 +9,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.test.bountifarm.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val viewModel by viewModels<SearchViewModel>()
     private lateinit var binding: FragmentSearchBinding
 
     override fun onCreateView(
@@ -35,7 +35,9 @@ class SearchFragment : Fragment() {
                     return if (query.isNullOrBlank()) {
                         false
                     } else {
-                        viewModel.search(query)
+                        findNavController().previousBackStackEntry
+                            ?.savedStateHandle
+                            ?.set(RESULT_KEY_QUERY, query)
                         true
                     }
                 }
@@ -56,5 +58,9 @@ class SearchFragment : Fragment() {
 
     private fun showKeyboard(view: View) {
         ViewCompat.getWindowInsetsController(view)?.show(WindowInsetsCompat.Type.ime())
+    }
+
+    companion object {
+        const val RESULT_KEY_QUERY = "query"
     }
 }

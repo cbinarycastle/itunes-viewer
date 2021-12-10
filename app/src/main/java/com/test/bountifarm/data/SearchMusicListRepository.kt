@@ -1,31 +1,25 @@
 package com.test.bountifarm.data
 
-import com.test.bountifarm.data.model.SearchMusicListRequest
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.test.bountifarm.domain.Music
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class SearchMusicListRepository @Inject constructor(
-    private val itunesService: ItunesService,
+    private val musicListPagingSourceFactory: MusicListPagingSourceFactory,
 ) {
+    fun getSearchResultStream(query: String): Flow<PagingData<Music>> {
+        return Pager(
+            config = PagingConfig(pageSize = PAGE_SIZE),
+            pagingSourceFactory = { musicListPagingSourceFactory.create(query) },
+        ).flow
+    }
 
-    suspend fun search(query: String): List<Music> {
-        return itunesService
-            .search(
-                SearchMusicListRequest(query).toMap()
-            )
-            .results
-            .map {
-                with(it) {
-                    Music(
-                        artworkUrl = artworkUrl30,
-                        trackName = trackName,
-                        collectionName = collectionName,
-                        releaseDate = releaseDate,
-                        artistName = artistName,
-                    )
-                }
-            }
+    companion object {
+        private const val PAGE_SIZE = 10
     }
 }
