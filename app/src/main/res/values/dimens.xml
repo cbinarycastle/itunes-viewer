@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Music item -->
+    <dimen name="music_item_artwork_size">100dp</dimen>
+    <dimen name="music_item_padding">16dp</dimen>
+    <dimen name="music_item_text_space">16dp</dimen>
+
+    <!-- Load state item -->
+    <dimen name="load_state_item_padding">8dp</dimen>
+</resources>

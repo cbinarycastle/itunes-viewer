@@ -51,4 +51,19 @@
 //            }
 //        }
 //    }
+//
+//    private val unsuccessfulMusicListPagingSourceFactory = object : MusicListPagingSourceFactory {
+//
+//        override fun create(term: String): PagingSource<Int, Music> {
+//            return object : PagingSource<Int, Music>() {
+//                override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Music> {
+//                    return LoadResult.Page(TestData.musics, null, 0)
+//                }
+//
+//                override fun getRefreshKey(state: PagingState<Int, Music>): Int? {
+//                    return null
+//                }
+//            }
+//        }
+//    }
 //}

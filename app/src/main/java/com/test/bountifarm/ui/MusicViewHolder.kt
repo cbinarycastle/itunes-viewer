@@ -9,5 +9,6 @@ class MusicViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(music: Music) {
+        binding.music = music
     }
 }

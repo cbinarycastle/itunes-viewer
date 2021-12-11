@@ -1,48 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+    <data>
+        <variable
+            name="music"
+            type="com.test.bountifarm.domain.Music" />
+    </data>
 
-    <ImageView
-        android:id="@+id/artwork"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:padding="@dimen/music_item_padding">
 
-    <TextView
-        android:id="@+id/track_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@id/artwork" />
+        <ImageView
+            android:id="@+id/artwork"
+            android:layout_width="@dimen/music_item_artwork_size"
+            android:layout_height="@dimen/music_item_artwork_size"
+            app:imageUrl="@{music.artworkUrl}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/collection_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/track_name"
-        app:layout_constraintStart_toStartOf="@id/track_name" />
+        <TextView
+            android:id="@+id/track_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/music_item_text_space"
+            android:text="@{music.trackName}"
+            android:lines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/artwork"
+            app:layout_constraintEnd_toStartOf="@id/track_time" />
 
-    <TextView
-        android:id="@+id/release_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBaseline_toBaselineOf="@id/collection_name"
-        app:layout_constraintStart_toEndOf="@id/track_name" />
+        <TextView
+            android:id="@+id/collection_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{music.collectionName}"
+            android:lines="1"
+            android:ellipsize="end"
+            app:layout_constraintTop_toBottomOf="@+id/track_name"
+            app:layout_constraintStart_toStartOf="@id/track_name"
+            app:layout_constraintEnd_toEndOf="@id/track_name" />
 
-    <TextView
-        android:id="@+id/artist_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/track_name" />
+        <TextView
+            android:id="@+id/release_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:ellipsize="end"
+            app:year="@{music.releaseDate}"
+            app:layout_constraintTop_toBottomOf="@id/collection_name"
+            app:layout_constraintStart_toStartOf="@id/track_name"
+            app:layout_constraintEnd_toEndOf="@id/track_name" />
 
-    <TextView
-        android:id="@+id/track_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/artist_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{music.artistName}"
+            android:lines="1"
+            android:ellipsize="end"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/track_name"
+            app:layout_constraintEnd_toEndOf="@id/track_name" />
+
+        <TextView
+            android:id="@+id/track_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:duration="@{music.trackTime}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -8,7 +8,6 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.test.bountifarm.databinding.FragmentSearchBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,9 +34,12 @@ class SearchFragment : Fragment() {
                     return if (query.isNullOrBlank()) {
                         false
                     } else {
-                        findNavController().previousBackStackEntry
-                            ?.savedStateHandle
-                            ?.set(RESULT_KEY_QUERY, query)
+                        with(findNavController()) {
+                            previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set(RESULT_KEY_QUERY, query)
+                            popBackStack()
+                        }
                         true
                     }
                 }

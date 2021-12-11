@@ -3,7 +3,14 @@ package com.test.bountifarm.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.test.bountifarm.data.model.SearchMusicListRequest
+import com.test.bountifarm.data.model.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
+import timber.log.Timber
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.toJavaDuration
 
 class MusicListPagingSource(
     private val itunesService: ItunesService,
@@ -24,24 +31,37 @@ class MusicListPagingSource(
                 .search(request.toMap())
                 .results
                 .map {
-                    with(it) {
-                        Music(
-                            artworkUrl = artworkUrl30,
-                            trackName = trackName,
-                            collectionName = collectionName,
-                            releaseDate = releaseDate,
-                            artistName = artistName,
-                        )
-                    }
+                    transform(it)
                 }
 
             LoadResult.Page(
                 data = musics,
                 prevKey = null,
-                nextKey = request.offset + request.limit,
+                nextKey = if (musics.size == request.limit) {
+                    request.offset + request.limit
+                } else {
+                    null
+                },
             )
         } catch (e: Exception) {
+            Timber.d(e)
             LoadResult.Error(e)
+        }
+    }
+
+    private fun transform(musicData: SearchMusicListResponse.Music): Music {
+        return with(musicData) {
+            Music(
+                trackId = trackId,
+                artworkUrl = artworkUrl100,
+                trackName = trackName,
+                collectionName = collectionName,
+                releaseDate = ZonedDateTime
+                    .parse(releaseDate)
+                    .toLocalDateTime(),
+                artistName = artistName,
+                trackTime = trackTimeMillis.milliseconds.toJavaDuration(),
+            )
         }
     }
 

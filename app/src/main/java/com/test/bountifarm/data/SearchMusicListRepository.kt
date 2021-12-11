@@ -14,7 +14,10 @@ class SearchMusicListRepository @Inject constructor(
 ) {
     fun getSearchResultStream(query: String): Flow<PagingData<Music>> {
         return Pager(
-            config = PagingConfig(pageSize = PAGE_SIZE),
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                initialLoadSize = PAGE_SIZE,
+            ),
             pagingSourceFactory = { musicListPagingSourceFactory.create(query) },
         ).flow
     }
