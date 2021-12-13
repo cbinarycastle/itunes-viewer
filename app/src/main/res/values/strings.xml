@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Bountifarm Test</string>
 
+    <!-- Button -->
+    <string name="button_retry">재시도</string>
+
     <!-- Actions -->
     <string name="action_title_search">검색</string>
 

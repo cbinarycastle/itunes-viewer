@@ -30,14 +30,7 @@ class MusicListViewModel @Inject constructor(
         }
     }.cachedIn(viewModelScope)
 
-    private val _initialLoading = MutableStateFlow(false)
-    val initialLoading = _initialLoading.asStateFlow()
-
     fun searchMusics(query: String) {
         this.query.value = query
-    }
-
-    fun setInitialLoading(loading: Boolean) {
-        _initialLoading.value = loading
     }
 }

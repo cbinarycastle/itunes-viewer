@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,10 +19,7 @@ import com.test.bountifarm.R
 import com.test.bountifarm.databinding.FragmentMusicListBinding
 import com.test.bountifarm.ui.SearchFragment.Companion.RESULT_KEY_QUERY
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -94,14 +92,20 @@ class MusicListFragment : Fragment() {
                         .distinctUntilChanged { old, new ->
                             old.refresh == new.refresh
                         }
+                        .map { it.refresh }
                         .collectLatest {
-                            when (it.refresh) {
-                                is LoadState.NotLoading -> {
-                                    viewModel.setInitialLoading(false)
-                                    scrollToTop()
+                            binding.errorLayout.root.isVisible = it is LoadState.Error
+                            binding.progressBar.isVisible = it == LoadState.Loading
+
+                            if (it is LoadState.NotLoading) {
+                                scrollToTop()
+                            }
+
+                            if (it is LoadState.Error) {
+                                with(binding.errorLayout) {
+                                    errorMessage.text = it.error.message
+                                    retryButton.setOnClickListener { adapter.retry() }
                                 }
-                                is LoadState.Error -> TODO()
-                                LoadState.Loading -> viewModel.setInitialLoading(true)
                             }
                         }
                 }
