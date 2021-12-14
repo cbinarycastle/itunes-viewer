@@ -28,6 +28,7 @@
             android:text="@{music.trackName}"
             android:lines="1"
             android:ellipsize="end"
+            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/artwork"
             app:layout_constraintEnd_toStartOf="@id/track_time" />
