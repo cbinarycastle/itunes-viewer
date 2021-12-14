@@ -27,4 +27,9 @@ class DefaultLoadStateAdapter(
         holder: LoadStateViewHolder,
         loadState: LoadState
     ) = holder.bind(loadState)
+
+    override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
+        return super.displayLoadStateAsItem(loadState)
+                || (loadState is LoadState.NotLoading && loadState.endOfPaginationReached)
+    }
 }

@@ -6,5 +6,9 @@
     <dimen name="music_item_text_space">16dp</dimen>
 
     <!-- Load state item -->
-    <dimen name="load_state_item_padding">8dp</dimen>
+    <dimen name="load_state_item_padding">16dp</dimen>
+
+    <!-- Error layout -->
+    <dimen name="error_layout_padding_horizontal">16dp</dimen>
+    <dimen name="error_layout_text_space">8dp</dimen>
 </resources>

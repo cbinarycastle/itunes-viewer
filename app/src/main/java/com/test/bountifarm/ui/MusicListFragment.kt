@@ -18,7 +18,6 @@ import com.test.bountifarm.ui.SearchFragment.Companion.RESULT_KEY_QUERY
 import com.test.bountifarm.util.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
 
@@ -89,8 +88,10 @@ class MusicListFragment : Fragment() {
                 .collectLatest {
                     binding.progressBar.isVisible = it == LoadState.Loading
                     binding.errorLayout.root.isVisible = it is LoadState.Error
-                    binding.emptyResultText.isVisible =
-                        it is LoadState.NotLoading && adapter.itemCount == 0
+
+                    val isResultEmpty = it is LoadState.NotLoading && adapter.itemCount == 0
+                    binding.recyclerView.isVisible = !isResultEmpty
+                    binding.emptyResultText.isVisible = isResultEmpty
 
                     if (it is LoadState.NotLoading) {
                         scrollToTop()
