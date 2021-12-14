@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.test.bountifarm.R
 import com.test.bountifarm.databinding.FragmentMusicListBinding
 import com.test.bountifarm.ui.SearchFragment.Companion.RESULT_KEY_QUERY
@@ -38,9 +39,14 @@ class MusicListFragment : Fragment() {
         binding = FragmentMusicListBinding.inflate(
             inflater, container, false
         ).apply {
-            recyclerView.adapter = adapter.withLoadStateFooter(
-                createLoadStateAdapter()
-            )
+            recyclerView.run {
+                adapter = this@MusicListFragment.adapter.withLoadStateFooter(
+                    createLoadStateAdapter()
+                )
+                addItemDecoration(
+                    DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+                )
+            }
         }
         return binding.root
     }

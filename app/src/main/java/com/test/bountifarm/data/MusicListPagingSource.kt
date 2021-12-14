@@ -6,6 +6,7 @@ import com.test.bountifarm.data.mapper.SearchMusicListResponseMapper
 import com.test.bountifarm.data.model.SearchMusicListRequest
 import com.test.bountifarm.data.model.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
+import kotlinx.coroutines.delay
 import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
@@ -44,7 +45,7 @@ class MusicListPagingSource(
                 }
             )
         } catch (e: Exception) {
-            Timber.d(e)
+            Timber.e(e)
             LoadResult.Error(e)
         }
     }
