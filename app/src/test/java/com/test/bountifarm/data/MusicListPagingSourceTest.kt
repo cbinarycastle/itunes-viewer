@@ -1,6 +1,7 @@
 package com.test.bountifarm.data
 
 import androidx.paging.PagingSource
+import com.test.bountifarm.data.mapper.SearchMusicListResponseMapper
 import com.test.bountifarm.data.model.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
 import kotlinx.coroutines.runBlocking
@@ -21,6 +22,7 @@ class MusicListPagingSourceTest {
         // when
         val actual = MusicListPagingSource(
             itunesService = fakeItunesService,
+            responseMapper = SearchMusicListResponseMapper(),
             term = "test",
         )
             .load(
@@ -34,24 +36,10 @@ class MusicListPagingSourceTest {
         // then
         val expected = PagingSource.LoadResult.Page(
             data = listOf(TestData.musicData[0], TestData.musicData[1], TestData.musicData[2])
-                .map { transformMusic(it) },
+                .mapIndexed { index, _ -> TestData.musics[index] },
             prevKey = null,
             nextKey = 3
         )
         assertEquals(expected, actual)
-    }
-
-    private fun transformMusic(response: SearchMusicListResponse.Music): Music {
-        return with(response) {
-            Music(
-                trackId = trackId,
-                artworkUrl = artworkUrl100,
-                trackName = trackName,
-                collectionName = collectionName,
-                releaseDate = releaseDate,
-                artistName = artistName,
-                trackTime = trackTimeMillis.milliseconds.toJavaDuration(),
-            )
-        }
     }
 }

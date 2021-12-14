@@ -3,6 +3,7 @@ package com.test.bountifarm.data
 import com.test.bountifarm.data.model.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
 import java.time.Duration
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 
 object TestData {
@@ -13,7 +14,7 @@ object TestData {
             artworkUrl = "artwork$it",
             trackName = "track$it",
             collectionName = "collection$it",
-            releaseDate = "2021-01-01T12:00:00Z",
+            releaseDate = LocalDateTime.of(2021, 1, it, 12, 0),
             artistName = "artist$it",
             trackTime = Duration.ofSeconds(it.toLong()),
         )
@@ -25,7 +26,7 @@ object TestData {
             artworkUrl100 = "artwork$it",
             trackName = "track$it",
             collectionName = "collection$it",
-            releaseDate = "2021-01-01T12:00:00Z",
+            releaseDate = "2021-01-0${it}T12:00:00Z",
             artistName = "artist$it",
             trackTimeMillis = TimeUnit.SECONDS.toMillis(it.toLong()),
         )

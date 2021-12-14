@@ -9,6 +9,7 @@
 
     <!-- Music list -->
     <string name="music_list_title">Bountifarm Music</string>
+    <string name="music_list_no_result">검색 결과가 없습니다.</string>
 
     <!-- Search -->
     <string name="search_hint">노래 제목 검색</string>

@@ -7,7 +7,9 @@ import androidx.paging.cachedIn
 import com.test.bountifarm.domain.Result
 import com.test.bountifarm.domain.SearchMusicListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,9 +18,6 @@ class MusicListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val query = MutableStateFlow("")
-
-    private val _errorMessage = MutableSharedFlow<Int>()
-    val errorMessage = _errorMessage.asSharedFlow()
 
     val musics = query.flatMapLatest {
         searchMusicListUseCase(it)
@@ -31,6 +30,6 @@ class MusicListViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     fun searchMusics(query: String) {
-        this.query.value = query
+        this.query.value = query.trim()
     }
 }

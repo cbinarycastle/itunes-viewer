@@ -2,6 +2,7 @@ package com.test.bountifarm.data
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.test.bountifarm.data.mapper.SearchMusicListResponseMapper
 import com.test.bountifarm.data.model.SearchMusicListRequest
 import com.test.bountifarm.data.model.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
@@ -14,6 +15,7 @@ import kotlin.time.toJavaDuration
 
 class MusicListPagingSource(
     private val itunesService: ItunesService,
+    private val responseMapper: SearchMusicListResponseMapper,
     private val term: String,
     private val entity: String = DEFAULT_ENTITY,
 ) : PagingSource<Int, Music>() {
@@ -30,9 +32,7 @@ class MusicListPagingSource(
             val musics = itunesService
                 .search(request.toMap())
                 .results
-                .map {
-                    transform(it)
-                }
+                .map { responseMapper.toMusic(it) }
 
             LoadResult.Page(
                 data = musics,
@@ -41,27 +41,11 @@ class MusicListPagingSource(
                     request.offset + request.limit
                 } else {
                     null
-                },
+                }
             )
         } catch (e: Exception) {
             Timber.d(e)
             LoadResult.Error(e)
-        }
-    }
-
-    private fun transform(musicData: SearchMusicListResponse.Music): Music {
-        return with(musicData) {
-            Music(
-                trackId = trackId,
-                artworkUrl = artworkUrl100,
-                trackName = trackName,
-                collectionName = collectionName,
-                releaseDate = ZonedDateTime
-                    .parse(releaseDate)
-                    .toLocalDateTime(),
-                artistName = artistName,
-                trackTime = trackTimeMillis.milliseconds.toJavaDuration(),
-            )
         }
     }
 

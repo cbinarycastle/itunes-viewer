@@ -4,15 +4,16 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@BindingAdapter("goneUnless")
-fun goneUnless(view: View, visible: Boolean) {
-    view.visibility = if (visible) View.VISIBLE else View.GONE
+@BindingAdapter("visible")
+fun visible(view: View, visible: Boolean) {
+    view.isVisible = visible
 }
 
 @BindingAdapter(value = ["imageUrl", "placeholder"], requireAll = false)
@@ -26,7 +27,7 @@ fun imageUrl(imageView: ImageView, imageUrl: String, placeholder: Drawable?) {
 @BindingAdapter("duration")
 fun duration(textView: TextView, duration: Duration) {
     val seconds = duration.seconds
-    val minutesPart = seconds % 3600 / 60
+    val minutesPart = seconds / 60
     val secondsPart = seconds % 60
     val durationForDisplay = String.format("%02d:%02d", minutesPart, secondsPart)
     textView.text = durationForDisplay
