@@ -10,6 +10,27 @@ import androidx.fragment.app.FragmentFactory
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 
+inline fun <reified T : Fragment> launchFragmentInHiltContainer(
+    fragmentArgs: Bundle? = null,
+    @StyleRes themeResId: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme,
+    crossinline action: Fragment.() -> Unit = {},
+    crossinline instantiate: () -> T
+) = launchFragmentInHiltContainer<T>(
+    fragmentArgs = fragmentArgs,
+    themeResId = themeResId,
+    factory =
+    object : FragmentFactory() {
+        override fun instantiate(
+            classLoader: ClassLoader,
+            className: String
+        ) = when (className) {
+            T::class.java.name -> instantiate()
+            else -> super.instantiate(classLoader, className)
+        }
+    },
+    action = action
+)
+
 /**
  * launchFragmentInContainer from the androidx.fragment:fragment-testing library
  * is NOT possible to use right now as it uses a hardcoded Activity under the hood
@@ -53,24 +74,3 @@ inline fun <reified T : Fragment> launchFragmentInHiltContainer(
         fragment.action()
     }
 }
-
-inline fun <reified T : Fragment> launchFragmentInHiltContainer(
-    fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = R.style.FragmentScenarioEmptyFragmentActivityTheme,
-    crossinline action: Fragment.() -> Unit = {},
-    crossinline instantiate: () -> T
-) = launchFragmentInHiltContainer<T>(
-    fragmentArgs = fragmentArgs,
-    themeResId = themeResId,
-    factory =
-    object : FragmentFactory() {
-        override fun instantiate(
-            classLoader: ClassLoader,
-            className: String
-        ) = when (className) {
-            T::class.java.name -> instantiate()
-            else -> super.instantiate(classLoader, className)
-        }
-    },
-    action = action
-)

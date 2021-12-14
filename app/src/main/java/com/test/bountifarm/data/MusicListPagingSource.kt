@@ -53,9 +53,7 @@ class MusicListPagingSource(
     override fun getRefreshKey(state: PagingState<Int, Music>): Int? {
         return null
     }
-
-    companion object {
-        private const val INITIAL_KEY = 0
-        private const val DEFAULT_ENTITY = "song"
-    }
 }
+
+private const val INITIAL_KEY = 0
+private const val DEFAULT_ENTITY = "song"
