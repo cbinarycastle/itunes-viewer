@@ -13,7 +13,7 @@ import com.test.bountifarm.MainCoroutineRule
 import com.test.bountifarm.R
 import com.test.bountifarm.data.FakeItunesService
 import com.test.bountifarm.data.ItunesService
-import com.test.bountifarm.data.TestData
+import com.test.bountifarm.TestData
 import com.test.bountifarm.di.*
 import com.test.bountifarm.launchFragmentInHiltContainer
 import dagger.Module
@@ -23,9 +23,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule

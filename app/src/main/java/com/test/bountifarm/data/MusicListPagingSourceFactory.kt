@@ -1,7 +1,6 @@
 package com.test.bountifarm.data
 
 import androidx.paging.PagingSource
-import com.test.bountifarm.data.mapper.SearchMusicListResponseMapper
 import com.test.bountifarm.domain.Music
 import javax.inject.Inject
 import javax.inject.Singleton

@@ -1,6 +1,5 @@
-package com.test.bountifarm.data.mapper
+package com.test.bountifarm.data
 
-import com.test.bountifarm.data.model.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
 import java.time.ZonedDateTime
 import javax.inject.Inject

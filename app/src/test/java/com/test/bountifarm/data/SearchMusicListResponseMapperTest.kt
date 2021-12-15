@@ -1,6 +1,6 @@
 package com.test.bountifarm.data
 
-import com.test.bountifarm.data.mapper.SearchMusicListResponseMapper
+import com.test.bountifarm.TestData
 import junit.framework.Assert.assertEquals
 import org.junit.Test
 

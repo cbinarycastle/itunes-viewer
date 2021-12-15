@@ -1,4 +1,4 @@
-package com.test.bountifarm.data.model
+package com.test.bountifarm.data
 
 data class SearchMusicListRequest(
     val term: String,

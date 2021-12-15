@@ -1,8 +1,5 @@
 package com.test.bountifarm.data
 
-import com.test.bountifarm.data.model.SearchMusicListRequest
-import com.test.bountifarm.data.model.SearchMusicListResponse
-
 class FakeItunesService : ItunesService {
 
     private val musics = mutableListOf<SearchMusicListResponse.Music>()

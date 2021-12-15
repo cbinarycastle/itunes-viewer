@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.test.bountifarm.MainCoroutineRule
 import com.test.bountifarm.R
 import com.test.bountifarm.data.ItunesService
-import com.test.bountifarm.data.model.SearchMusicListResponse
+import com.test.bountifarm.data.SearchMusicListResponse
 import com.test.bountifarm.di.*
 import com.test.bountifarm.launchFragmentInHiltContainer
 import dagger.Module
@@ -22,7 +22,6 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
-import dagger.hilt.testing.TestInstallIn
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule

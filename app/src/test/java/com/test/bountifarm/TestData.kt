@@ -1,6 +1,6 @@
-package com.test.bountifarm.data
+package com.test.bountifarm
 
-import com.test.bountifarm.data.model.SearchMusicListResponse
+import com.test.bountifarm.data.SearchMusicListResponse
 import com.test.bountifarm.domain.Music
 import java.time.Duration
 import java.time.LocalDateTime
