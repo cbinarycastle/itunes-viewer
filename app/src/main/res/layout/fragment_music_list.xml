@@ -1,54 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.test.bountifarm.ui.MusicListViewModel" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        style="@style/Widget.App.AppBar"
+        <variable
+            name="errorEventListener"
+            type="com.test.bountifarm.ui.ErrorEventListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.App.AppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/recycler_view"
-        app:layout_constraintBottom_toBottomOf="@id/recycler_view"
-        app:layout_constraintStart_toStartOf="@id/recycler_view"
-        app:layout_constraintEnd_toEndOf="@id/recycler_view" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:goneUnless="@{!viewModel.isResultEmpty}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-    <include
-        android:id="@+id/error_layout"
-        layout="@layout/include_error_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/recycler_view"
-        app:layout_constraintBottom_toBottomOf="@id/recycler_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:goneUnless="@{viewModel.isLoading}"
+            app:layout_constraintTop_toTopOf="@id/recycler_view"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_view"
+            app:layout_constraintStart_toStartOf="@id/recycler_view"
+            app:layout_constraintEnd_toEndOf="@id/recycler_view" />
 
-    <TextView
-        android:id="@+id/empty_result_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/music_list_no_result"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="@id/recycler_view"
-        app:layout_constraintBottom_toBottomOf="@id/recycler_view"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        <include
+            android:id="@+id/error_view"
+            layout="@layout/include_error_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:goneUnless="@{viewModel.isError}"
+            app:errorMessage="@{viewModel.errorMessage}"
+            app:eventListener="@{errorEventListener}"
+            app:layout_constraintTop_toTopOf="@id/recycler_view"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/empty_result_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/music_list_no_result"
+            app:goneUnless="@{viewModel.isResultEmpty}"
+            app:layout_constraintTop_toTopOf="@id/recycler_view"
+            app:layout_constraintBottom_toBottomOf="@id/recycler_view"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

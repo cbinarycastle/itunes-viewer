@@ -11,8 +11,8 @@ import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-@BindingAdapter("visible")
-fun visible(view: View, visible: Boolean) {
+@BindingAdapter("goneUnless")
+fun goneUnless(view: View, visible: Boolean) {
     view.isVisible = visible
 }
 

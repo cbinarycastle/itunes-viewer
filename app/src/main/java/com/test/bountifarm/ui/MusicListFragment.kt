@@ -4,13 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.test.bountifarm.R
 import com.test.bountifarm.databinding.FragmentMusicListBinding
@@ -20,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MusicListFragment : Fragment() {
@@ -38,13 +38,10 @@ class MusicListFragment : Fragment() {
         binding = FragmentMusicListBinding.inflate(
             inflater, container, false
         ).apply {
-            recyclerView.run {
-                adapter = this@MusicListFragment.adapter.withLoadStateFooter(
-                    createLoadStateAdapter()
-                )
-                addItemDecoration(
-                    DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
-                )
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@MusicListFragment.viewModel
+            errorEventListener = object : ErrorEventListener {
+                override fun retry() = adapter.retry()
             }
         }
         return binding.root
@@ -70,40 +67,44 @@ class MusicListFragment : Fragment() {
             setupWithNavController(navController)
         }
 
+        binding.recyclerView.run {
+            adapter = this@MusicListFragment.adapter.withLoadStateFooter(
+                createLoadStateAdapter()
+            )
+            addItemDecoration(
+                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            )
+        }
+
         navController.currentBackStackEntry
             ?.savedStateHandle
             ?.getLiveData<String>(RESULT_KEY_QUERY)
             ?.observe(viewLifecycleOwner) { viewModel.searchMusics(it) }
 
         launchAndRepeatWithViewLifecycle {
-            viewModel.musics.collectLatest {
-                adapter.submitData(it)
-            }
-        }
-
-        launchAndRepeatWithViewLifecycle {
-            adapter.loadStateFlow
-                .distinctUntilChangedBy { it.refresh }
-                .map { it.refresh }
-                .collectLatest {
-                    binding.progressBar.isVisible = it == LoadState.Loading
-                    binding.errorLayout.root.isVisible = it is LoadState.Error
-
-                    val isResultEmpty = it is LoadState.NotLoading && adapter.itemCount == 0
-                    binding.recyclerView.isVisible = !isResultEmpty
-                    binding.emptyResultText.isVisible = isResultEmpty
-
-                    if (it is LoadState.NotLoading) {
-                        scrollToTop()
-                    }
-
-                    if (it is LoadState.Error) {
-                        binding.errorLayout.run {
-                            errorMessage.text = it.error.message
-                            retryButton.setOnClickListener { adapter.retry() }
-                        }
-                    }
+            launch {
+                viewModel.musics.collectLatest {
+                    adapter.submitData(it)
                 }
+            }
+
+            launch {
+                adapter.loadStateFlow
+                    .distinctUntilChangedBy { it.refresh }
+                    .map { it.refresh }
+                    .collectLatest {
+                        viewModel.onRefreshLoadStateChanged(
+                            loadState = it,
+                            itemCount = adapter.itemCount
+                        )
+                    }
+            }
+
+            launch {
+                viewModel.scrollTopEvent.collectLatest {
+                    scrollToTop()
+                }
+            }
         }
     }
 
