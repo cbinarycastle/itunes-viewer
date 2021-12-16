@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -58,7 +57,7 @@ class MusicListFragment : Fragment() {
             inflateMenu(R.menu.menu_music_list)
             setOnMenuItemClickListener {
                 if (it.itemId == R.id.action_search) {
-                    navController.navigate(MusicListFragmentDirections.toSearch())
+                    openSearch()
                     true
                 } else {
                     false
@@ -106,6 +105,10 @@ class MusicListFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun openSearch() {
+        navController.navigate(MusicListFragmentDirections.toSearch())
     }
 
     private fun scrollToTop() {

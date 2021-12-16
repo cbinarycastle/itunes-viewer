@@ -13,8 +13,4 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-
-    <style name="Widget.App.AppBar" parent="@style/Widget.Design.AppBarLayout">
-        <item name="android:background">?attr/colorPrimary</item>
-    </style>
 </resources>
