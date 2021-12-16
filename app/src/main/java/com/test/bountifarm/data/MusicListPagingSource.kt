@@ -10,6 +10,7 @@ class MusicListPagingSource(
     private val responseMapper: SearchMusicListResponseMapper,
     private val term: String,
     private val entity: String = DEFAULT_ENTITY,
+    private val country: String = DEFAULT_COUNTRY,
 ) : PagingSource<Int, Music>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Music> {
@@ -17,7 +18,8 @@ class MusicListPagingSource(
             val request = SearchMusicListRequest(
                 term = term,
                 entity = entity,
-                offset = params.key ?: INITIAL_KEY,
+                country = country,
+                offset = params.key ?: INITIAL_OFFSET,
                 limit = params.loadSize,
             )
 
@@ -46,5 +48,6 @@ class MusicListPagingSource(
     }
 }
 
-private const val INITIAL_KEY = 0
+private const val INITIAL_OFFSET = 0
 private const val DEFAULT_ENTITY = "song"
+private const val DEFAULT_COUNTRY = "KR"
