@@ -16,6 +16,11 @@ fun goneUnless(view: View, visible: Boolean) {
     view.isVisible = visible
 }
 
+@BindingAdapter("invisibleUnless")
+fun invisibleUnless(view: View, visible: Boolean) {
+    view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+}
+
 @BindingAdapter(value = ["imageUrl", "placeholder"], requireAll = false)
 fun imageUrl(imageView: ImageView, imageUrl: String, placeholder: Drawable?) {
     Glide.with(imageView)

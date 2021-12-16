@@ -21,13 +21,18 @@ class MusicListViewModel @Inject constructor(
     val musics = query
         .flatMapLatest {
             searchMusicListUseCase(it)
-        }.map {
+        }
+        .map {
             when (it) {
                 is Result.Success -> it.data
                 is Result.Error -> PagingData.empty()
                 Result.Loading -> PagingData.empty()
             }
-        }.cachedIn(viewModelScope)
+        }
+        .onEach {
+            _isOnTop.value = true
+        }
+        .cachedIn(viewModelScope)
 
     private var previousLoadState: LoadState? = null
 

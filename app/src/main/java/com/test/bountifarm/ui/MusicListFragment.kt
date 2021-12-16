@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -15,8 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.test.bountifarm.R
 import com.test.bountifarm.databinding.FragmentMusicListBinding
 import com.test.bountifarm.ui.SearchFragment.Companion.RESULT_KEY_QUERY
+import com.test.bountifarm.util.anchorSmoothScrollToPosition
 import com.test.bountifarm.util.launchAndRepeatWithViewLifecycle
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.map
@@ -86,7 +90,7 @@ class MusicListFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener { adapter.refresh() }
 
-        binding.fab.setOnClickListener { scrollToTop() }
+        binding.fab.setOnClickListener { scrollToTop(smoothScroll = true) }
 
         navController.currentBackStackEntry
             ?.savedStateHandle
@@ -114,7 +118,7 @@ class MusicListFragment : Fragment() {
 
             launch {
                 viewModel.scrollTopEvent.collectLatest {
-                    scrollToTop(smoothScroll = true)
+                    scrollToTop()
                 }
             }
         }
@@ -126,7 +130,7 @@ class MusicListFragment : Fragment() {
 
     private fun scrollToTop(smoothScroll: Boolean = false) {
         if (smoothScroll) {
-            binding.recyclerView.smoothScrollToPosition(0)
+            binding.recyclerView.anchorSmoothScrollToPosition(0)
         } else {
             binding.recyclerView.scrollToPosition(0)
         }
