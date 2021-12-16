@@ -72,7 +72,8 @@ class MusicListFragmentTest {
                 throw noViewFoundException
             }
 
-            assertEquals(TestData.musicData.size, (view as RecyclerView).adapter?.itemCount)
+            val sizeOfItemAndEndOfPaginationView = TestData.musicData.size + 1
+            assertEquals(sizeOfItemAndEndOfPaginationView, (view as RecyclerView).adapter?.itemCount)
         }
     }
 
