@@ -10,6 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.test.bountifarm.R
 import com.test.bountifarm.databinding.FragmentMusicListBinding
 import com.test.bountifarm.ui.SearchFragment.Companion.RESULT_KEY_QUERY
@@ -73,7 +75,16 @@ class MusicListFragment : Fragment() {
             addItemDecoration(
                 DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
             )
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    val first = (layoutManager as LinearLayoutManager)
+                        .findFirstCompletelyVisibleItemPosition()
+                    viewModel.onScrolled(first)
+                }
+            })
         }
+
+        binding.fab.setOnClickListener { scrollToTop() }
 
         navController.currentBackStackEntry
             ?.savedStateHandle
@@ -101,7 +112,7 @@ class MusicListFragment : Fragment() {
 
             launch {
                 viewModel.scrollTopEvent.collectLatest {
-                    scrollToTop()
+                    scrollToTop(smoothScroll = true)
                 }
             }
         }
@@ -111,7 +122,11 @@ class MusicListFragment : Fragment() {
         navController.navigate(MusicListFragmentDirections.toSearch())
     }
 
-    private fun scrollToTop() {
-        binding.recyclerView.scrollToPosition(0)
+    private fun scrollToTop(smoothScroll: Boolean = false) {
+        if (smoothScroll) {
+            binding.recyclerView.smoothScrollToPosition(0)
+        } else {
+            binding.recyclerView.scrollToPosition(0)
+        }
     }
 }

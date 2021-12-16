@@ -36,6 +36,9 @@ class MusicListViewModel @Inject constructor(
     private val _isResultEmpty = MutableStateFlow(false)
     val isResultEmpty = _isResultEmpty.asStateFlow()
 
+    private val _isOnTop = MutableStateFlow(true)
+    val isOnTop = _isOnTop.asStateFlow()
+
     val isLoading = loadState
         .map { it == LoadState.Loading }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
@@ -56,6 +59,10 @@ class MusicListViewModel @Inject constructor(
 
     fun searchMusics(query: String) {
         this.query.value = query.trim()
+    }
+
+    fun onScrolled(firstVisiblePosition: Int) {
+        _isOnTop.value = firstVisiblePosition == 0
     }
 
     fun onRefreshLoadStateChanged(loadState: LoadState, itemCount: Int) {
