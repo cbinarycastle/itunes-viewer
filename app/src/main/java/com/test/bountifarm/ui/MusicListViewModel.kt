@@ -67,7 +67,7 @@ class MusicListViewModel @Inject constructor(
     }
 
     fun onScrolled(firstVisiblePosition: Int) {
-        _isOnTop.value = firstVisiblePosition == 0
+        _isOnTop.value = firstVisiblePosition <= 0
     }
 
     fun onRefreshLoadStateChanged(loadState: LoadState, itemCount: Int) {
