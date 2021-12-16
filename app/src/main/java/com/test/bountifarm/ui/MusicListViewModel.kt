@@ -7,6 +7,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.test.bountifarm.domain.Result
 import com.test.bountifarm.domain.SearchMusicListUseCase
+import com.test.bountifarm.util.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
@@ -46,21 +47,21 @@ class MusicListViewModel @Inject constructor(
 
     val isLoading = loadState
         .map { it == LoadState.Loading }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+        .stateIn(viewModelScope, WhileViewSubscribed, false)
 
     val isError = loadState
         .map { it is LoadState.Error }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), false)
+        .stateIn(viewModelScope, WhileViewSubscribed, false)
 
     val scrollTopEvent = loadState
         .filter { it is LoadState.NotLoading && it != previousLoadState }
         .map {}
-        .shareIn(viewModelScope, SharingStarted.WhileSubscribed())
+        .shareIn(viewModelScope, WhileViewSubscribed)
 
     val errorMessage = loadState
         .filter { it is LoadState.Error }
         .map { (it as LoadState.Error).error.message }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), "")
+        .stateIn(viewModelScope, WhileViewSubscribed, "")
 
     fun searchMusics(query: String) {
         this.query.value = query.trim()
