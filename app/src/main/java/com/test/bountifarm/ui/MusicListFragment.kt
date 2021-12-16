@@ -84,6 +84,8 @@ class MusicListFragment : Fragment() {
             })
         }
 
+        binding.swipeRefresh.setOnRefreshListener { adapter.refresh() }
+
         binding.fab.setOnClickListener { scrollToTop() }
 
         navController.currentBackStackEntry
