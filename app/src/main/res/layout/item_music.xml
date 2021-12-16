@@ -8,6 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/music_item_padding">
@@ -26,12 +27,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/music_item_text_space"
             android:text="@{music.trackName}"
+            android:textAppearance="?textAppearanceListItem"
+            android:textStyle="bold"
             android:lines="1"
             android:ellipsize="end"
-            android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/artwork"
-            app:layout_constraintEnd_toStartOf="@id/track_time" />
+            app:layout_constraintEnd_toStartOf="@id/track_time"
+            tools:text="Santa Tell Me" />
 
         <TextView
             android:id="@+id/collection_name"
@@ -42,7 +45,8 @@
             android:ellipsize="end"
             app:layout_constraintTop_toBottomOf="@+id/track_name"
             app:layout_constraintStart_toStartOf="@id/track_name"
-            app:layout_constraintEnd_toEndOf="@id/track_name" />
+            app:layout_constraintEnd_toEndOf="@id/track_name"
+            tools:text="Santa Tell Me - Single" />
 
         <TextView
             android:id="@+id/release_year"
@@ -53,7 +57,8 @@
             app:year="@{music.releaseDate}"
             app:layout_constraintTop_toBottomOf="@id/collection_name"
             app:layout_constraintStart_toStartOf="@id/track_name"
-            app:layout_constraintEnd_toEndOf="@id/track_name" />
+            app:layout_constraintEnd_toEndOf="@id/track_name"
+            tools:text="2013" />
 
         <TextView
             android:id="@+id/artist_name"
@@ -64,7 +69,8 @@
             android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@id/track_name"
-            app:layout_constraintEnd_toEndOf="@id/track_name" />
+            app:layout_constraintEnd_toEndOf="@id/track_name"
+            tools:text="Ariana Grande" />
 
         <TextView
             android:id="@+id/track_time"
@@ -72,6 +78,7 @@
             android:layout_height="wrap_content"
             app:duration="@{music.trackTime}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="03:24" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

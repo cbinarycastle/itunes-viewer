@@ -82,7 +82,7 @@ class MusicListFragment : Fragment() {
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     val first = (layoutManager as LinearLayoutManager)
-                        .findFirstCompletelyVisibleItemPosition()
+                        .findFirstVisibleItemPosition()
                     viewModel.onScrolled(first)
                 }
             })

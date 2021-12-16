@@ -55,7 +55,7 @@ class UnsuccessfulMusicListFragmentTest {
                 this@UnsuccessfulMusicListFragmentTest.fragment = fragment
                 fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
                     if (viewLifecycleOwner != null) {
-                        navController.setGraph(R.navigation.nav_music_list)
+                        navController.setGraph(R.navigation.nav_graph)
                         Navigation.setViewNavController(fragment.requireView(), navController)
                     }
                 }

@@ -12,6 +12,7 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -46,7 +47,8 @@
                     app:goneUnless="@{!viewModel.isResultEmpty}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:listitem="@layout/item_music" />
 
                 <include
                     android:id="@+id/error_view"
@@ -59,7 +61,8 @@
                     app:layout_constraintTop_toTopOf="@id/recycler_view"
                     app:layout_constraintBottom_toBottomOf="@id/recycler_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:visibility="gone" />
 
                 <TextView
                     android:id="@+id/empty_result_text"
@@ -70,7 +73,8 @@
                     app:layout_constraintTop_toTopOf="@id/recycler_view"
                     app:layout_constraintBottom_toBottomOf="@id/recycler_view"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:visibility="gone" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
