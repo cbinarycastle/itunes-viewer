@@ -11,7 +11,7 @@ import org.junit.Test
 class MusicListPagingSourceTest {
 
     @Test
-    fun `음악 리스트를 성공적으로 로드한 경우, load()가 Page를 반환한다`() = runBlockingTest {
+    fun `음악 리스트를 성공적으로 로드한 경우, Page를 반환한다`() = runBlockingTest {
         // given
         val fakeItunesService = FakeItunesService().apply {
             TestData.musicData.forEach { addMusic(it) }

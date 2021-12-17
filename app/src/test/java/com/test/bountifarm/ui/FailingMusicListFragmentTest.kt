@@ -9,7 +9,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.test.bountifarm.MainCoroutineRule
 import com.test.bountifarm.R
 import com.test.bountifarm.data.ItunesService
 import com.test.bountifarm.data.SearchMusicListResponse
@@ -22,23 +21,18 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @UninstallModules(NetworkModule::class)
 @HiltAndroidTest
-class UnsuccessfulMusicListFragmentTest {
+class FailingMusicListFragmentTest {
 
-    @get:Rule(order = 0)
+    @get:Rule
     var hiltRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 1)
-    var coroutineRule = MainCoroutineRule()
 
     private lateinit var fragment: MusicListFragment
     private lateinit var navController: NavHostController
@@ -52,7 +46,7 @@ class UnsuccessfulMusicListFragmentTest {
 
         launchFragmentInHiltContainer {
             MusicListFragment().also { fragment ->
-                this@UnsuccessfulMusicListFragmentTest.fragment = fragment
+                this@FailingMusicListFragmentTest.fragment = fragment
                 fragment.viewLifecycleOwnerLiveData.observeForever { viewLifecycleOwner ->
                     if (viewLifecycleOwner != null) {
                         navController.setGraph(R.navigation.nav_graph)

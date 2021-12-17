@@ -46,7 +46,9 @@ class MusicListViewModel @Inject constructor(
     val isOnTop = _isOnTop.asStateFlow()
 
     val isLoading = loadState
-        .map { it == LoadState.Loading }
+        .map {
+        println("isLoading: $it")
+            it == LoadState.Loading }
         .stateIn(viewModelScope, WhileViewSubscribed, false)
 
     val isError = loadState

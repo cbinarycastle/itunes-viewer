@@ -10,28 +10,22 @@ import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.test.bountifarm.MainCoroutineRule
 import com.test.bountifarm.R
 import com.test.bountifarm.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 @HiltAndroidTest
 class SearchFragmentTest {
 
-    @get:Rule(order = 0)
+    @get:Rule
     var hiltRule = HiltAndroidRule(this)
-
-    @get:Rule(order = 1)
-    var coroutineRule = MainCoroutineRule()
 
     private lateinit var navController: NavHostController
 
