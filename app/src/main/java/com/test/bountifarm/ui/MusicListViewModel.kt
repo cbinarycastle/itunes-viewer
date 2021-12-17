@@ -53,6 +53,10 @@ class MusicListViewModel @Inject constructor(
         .map { it is LoadState.Error }
         .stateIn(viewModelScope, WhileViewSubscribed, false)
 
+    val loadSucceed = combine(isResultEmpty, isError, isLoading) { isResultEmpty, isError, isLoading ->
+        !isResultEmpty && !isError && !isLoading
+    }.stateIn(viewModelScope, WhileViewSubscribed, false)
+
     val scrollTopEvent = loadState
         .filter { it is LoadState.NotLoading && it != previousLoadState }
         .map {}
