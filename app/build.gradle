@@ -92,8 +92,14 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
+    // Timber
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+
+    // Swipe refresh layout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
+
     // JUnit
-    testImplementation 'junit:junit:4.+'
+    testImplementation "junit:junit:$jUnitVersion"
     testImplementation "androidx.test.ext:junit:$androidJUnitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidJUnitVersion"
 
@@ -103,10 +109,4 @@ dependencies {
 
     // Robolectric
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
-
-    // Timber
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-
-    // Swipe refresh layout
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipeRefreshLayoutVersion"
 }
