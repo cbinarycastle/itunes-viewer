@@ -69,7 +69,6 @@ class MusicListFragment : Fragment() {
                     false
                 }
             }
-            setupWithNavController(navController)
         }
 
         binding.recyclerView.run {
@@ -119,6 +118,12 @@ class MusicListFragment : Fragment() {
             launch {
                 viewModel.scrollTopEvent.collectLatest {
                     scrollToTop()
+                }
+            }
+
+            launch {
+                viewModel.query.collectLatest {
+                    binding.toolbar.title = it.ifEmpty { getString(R.string.music_list_title) }
                 }
             }
         }

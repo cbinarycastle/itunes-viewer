@@ -17,9 +17,10 @@ class MusicListViewModel @Inject constructor(
     searchMusicListUseCase: SearchMusicListUseCase,
 ) : ViewModel() {
 
-    private val query = MutableStateFlow("")
+    private val _query = MutableStateFlow("")
+    val query = _query.asStateFlow()
 
-    val musics = query
+    val musics = _query
         .flatMapLatest {
             searchMusicListUseCase(it)
         }
@@ -53,9 +54,10 @@ class MusicListViewModel @Inject constructor(
         .map { it is LoadState.Error }
         .stateIn(viewModelScope, WhileViewSubscribed, false)
 
-    val loadSucceed = combine(isResultEmpty, isError, isLoading) { isResultEmpty, isError, isLoading ->
-        !isResultEmpty && !isError && !isLoading
-    }.stateIn(viewModelScope, WhileViewSubscribed, false)
+    val loadSucceed =
+        combine(isResultEmpty, isError, isLoading) { isResultEmpty, isError, isLoading ->
+            !isResultEmpty && !isError && !isLoading
+        }.stateIn(viewModelScope, WhileViewSubscribed, false)
 
     val scrollTopEvent = loadState
         .filter { it is LoadState.NotLoading && it != previousLoadState }
@@ -68,7 +70,7 @@ class MusicListViewModel @Inject constructor(
         .stateIn(viewModelScope, WhileViewSubscribed, "")
 
     fun searchMusics(query: String) {
-        this.query.value = query.trim()
+        this._query.value = query.trim()
     }
 
     fun onScrolled(firstVisiblePosition: Int) {
